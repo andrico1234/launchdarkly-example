@@ -1,6 +1,8 @@
 <script>
+	import { goto } from '$app/navigation';
 	import generateSteps from '$lib/helpers/generateSteps';
 	import roundNumber from '$lib/helpers/roundNumber';
+	import Marquee from '$lib/marquee.svelte';
 	import Progress from '$lib/progress.svelte';
 
 	let isLoading = $state(false);
@@ -15,8 +17,15 @@
 		beginLoading();
 	}
 
+	function playStartupSound() {
+		const audio = new Audio('/andricos-2000-startup.mp3');
+		audio.volume = 0.3;
+		audio.play();
+	}
+
 	function beginLoading() {
 		const steps = generateSteps(startupTime, interval);
+		playStartupSound();
 
 		const intervalRef = setInterval(() => {
 			const currentVal = steps[currentStep] ?? 0;
@@ -25,18 +34,29 @@
 			if (newProgress >= 100) {
 				clearInterval(intervalRef);
 				progress = 100;
+				goto('/desktop');
 			} else {
 				progress = newProgress;
 				currentStep++;
 			}
 		}, interval);
 	}
+
+	const underConstruction = $state(false);
 </script>
 
 <div class="page">
 	<div id="startup-background">
-		<div class="cover">
-			{#if !isLoading}
+		<div class="cover" style="overflow: hidden;">
+			{#if underConstruction}
+				<div class="principal">
+					<div class="marquee-wrapper">
+						<Marquee>
+							<h1 class="marquee-text">Under Construction</h1>
+						</Marquee>
+					</div>
+				</div>
+			{:else if !isLoading}
 				<div class="principal">
 					<div class="content">
 						<h1 id="standing-by">Standing by...</h1>
@@ -95,6 +115,22 @@
 		display: flex;
 		flex-direction: column;
 		gap: var(--spacing-200);
+	}
+
+	.cover {
+		padding: 1rem;
+	}
+
+	.marquee-wrapper {
+		rotate: 45deg;
+		scale: 2;
+		overflow: hidden;
+	}
+
+	.marquee-text {
+		color: var(--color-black);
+		text-align: left;
+		margin: 0;
 	}
 
 	@keyframes flash {
