@@ -1,5 +1,4 @@
 <script>
-	import Panel from './panel.svelte';
 	import Window from './window.svelte';
 
 	const { onPress } = $props();

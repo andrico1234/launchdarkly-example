@@ -1,5 +1,7 @@
 <script>
 	import { goto } from '$app/navigation';
+	import * as LDClient from 'launchdarkly-js-client-sdk';
+	import { onMount } from 'svelte';
 	import generateSteps from '$lib/helpers/generateSteps';
 	import roundNumber from '$lib/helpers/roundNumber';
 	import Marquee from '$lib/marquee.svelte';
@@ -42,13 +44,29 @@
 		}, interval);
 	}
 
-	const underConstruction = $state(false);
+	let showSite = $state(false);
+
+	onMount(() => {
+		const context = {
+			kind: 'user',
+			anonymous: true
+		};
+
+		const client = LDClient.initialize('67b9e826ecf6960bf4932f18', context);
+
+		client.on('initialized', function () {
+			showSite = client.variation('rollout-site', false);
+			client.on('rollout-site', (val) => {
+				showSite = val;
+			});
+		});
+	});
 </script>
 
 <div class="page">
 	<div id="startup-background">
 		<div class="cover" style="overflow: hidden;">
-			{#if underConstruction}
+			{#if !showSite}
 				<div class="principal">
 					<div class="marquee-wrapper">
 						<Marquee>
