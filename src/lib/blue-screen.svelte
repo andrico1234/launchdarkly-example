@@ -1,3 +1,11 @@
+<script>
+	import { goto } from '$app/navigation';
+
+	const handleRestart = () => {
+		goto('/');
+	};
+</script>
+
 <div id="blue-screen">
 	<div class="cover">
 		<div class="heading">
@@ -14,6 +22,9 @@
 					If you continue to experience problems, please perform a fresh reinstall of Andricos2000
 					using an official installation CD.
 				</p>
+				<div>
+					<button onclick={handleRestart}>Restart</button>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -25,6 +36,18 @@
 		position: absolute;
 		inset: 0;
 		padding: 16px;
+	}
+
+	.stack {
+		display: flex;
+		flex-direction: column;
+		gap: 32px;
+		padding-top: 32px;
+		max-width: 70ch;
+	}
+
+	.stack p {
+		margin: 0;
 	}
 
 	.heading {

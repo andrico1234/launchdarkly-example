@@ -1,5 +1,6 @@
 <script>
 	import Panel from './panel.svelte';
+	import Window from './window.svelte';
 
 	const { onPress } = $props();
 
@@ -9,7 +10,7 @@
 		.map(() => Array(GRID_SIZE).fill(null));
 </script>
 
-<Panel>
+<Window heading="Minesweeper">
 	<div class="grid">
 		{#each grid as row, i}
 			{#each row as cell, j}
@@ -17,7 +18,7 @@
 			{/each}
 		{/each}
 	</div>
-</Panel>
+</Window>
 
 <style>
 	.grid {

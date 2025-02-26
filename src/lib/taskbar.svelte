@@ -1,5 +1,6 @@
 <script>
 	import { onMount } from 'svelte';
+	import StartButton from './start-button.svelte';
 
 	const timeFormat = new Intl.DateTimeFormat('en-US', {
 		hour: 'numeric',
@@ -21,7 +22,7 @@
 </script>
 
 <div class="taskbar">
-	<a2k-start-button></a2k-start-button>
+	<StartButton />
 	<div class="utility-bar">{formattedTime}</div>
 </div>
 

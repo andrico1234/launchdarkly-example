@@ -8,10 +8,6 @@
 
 <style>
 	.panel {
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		transform: translate(-50%, -50%);
 		border: var(--panel-border);
 		background-color: var(--panel-color-background);
 		box-shadow: var(--panel-shadow);

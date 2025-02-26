@@ -5,8 +5,14 @@ export default $config({
     return {
       name: "launchdarkly-app",
       removal: input?.stage === "production" ? "retain" : "remove",
-      protect: ["production"].includes(input?.stage),
+      // protect: ["production"].includes(input?.stage),
       home: "aws",
+      providers: {
+        aws: {
+          profile: "personal",
+          region: "eu-west-1",
+        }
+      }
     };
   },
   async run() {
